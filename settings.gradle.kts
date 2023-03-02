@@ -1,0 +1,3 @@
+
+rootProject.name = "Metcher-MSG"
+
