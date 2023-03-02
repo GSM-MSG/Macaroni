@@ -1,3 +1,3 @@
 
-rootProject.name = "Metcher-MSG"
+rootProject.name = "Macaroni"
 
