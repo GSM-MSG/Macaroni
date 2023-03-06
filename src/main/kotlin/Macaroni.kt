@@ -1,18 +1,30 @@
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 
-class Macaroni<T> {
+class Macaroni<T>(
+    onRemoteObservable: suspend () -> Flow<T>,
+    onLocalObservable: suspend () -> Flow<T>,
+    getLocalData: () -> T,
+    onUpdateLocal: suspend (T) -> Unit
+) {
     // remote
-    lateinit var onRemoteObservable: (suspend () -> Flow<T>)
+    var onRemoteObservable: suspend () -> Flow<T>
 
     // local
-    lateinit var onLocalObservable: (suspend () -> Flow<T>)
-    lateinit var getLocalData: (() -> T)
-    lateinit var onUpdateLocal: (suspend (T) -> Unit)
+    var onLocalObservable: suspend () -> Flow<T>
+    var getLocalData: () -> T
+    var onUpdateLocal: suspend (T) -> Unit
+    init {
+        this.onRemoteObservable = onRemoteObservable
+        this.onLocalObservable = onLocalObservable
+        this.getLocalData = getLocalData
+        this.onUpdateLocal = onUpdateLocal
+
+    }
 
     suspend fun fetch(onNext: (Status, T) -> Unit) {
         onNext(Status.Loading, getLocalData())
-        onRemoteObservable().collect{data ->
+        onRemoteObservable().collect { data ->
             onUpdateLocal(data)
 
             onLocalObservable().collect { changedLocalData ->
