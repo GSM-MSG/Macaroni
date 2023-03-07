@@ -19,17 +19,16 @@ class Macaroni<T>(
         this.onLocalObservable = onLocalObservable
         this.getLocalData = getLocalData
         this.onUpdateLocal = onUpdateLocal
-
     }
 
     suspend fun fetch(onNext: (Status, T) -> Unit) {
         onNext(Status.Loading, getLocalData())
         onRemoteObservable().collect { data ->
             onUpdateLocal(data)
+        }
 
-            onLocalObservable().collect { changedLocalData ->
-                onNext(Status.Success, changedLocalData)
-            }
+        onLocalObservable().collect { changedLocalData ->
+            onNext(Status.Success, changedLocalData)
         }
     }
 }
