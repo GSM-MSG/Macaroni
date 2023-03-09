@@ -21,7 +21,7 @@ suspend fun main() {
         getLocalData = { TestStatus(name = "getLocalData", test = "test") }
     )
 
-    macaroni.fetch { status, testStatus ->
-        println("status: $status, testStatus: $testStatus")
+    macaroni.fetch { status, result ->
+        println("status: $status, result: $result")
     }
 }
