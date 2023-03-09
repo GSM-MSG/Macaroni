@@ -25,10 +25,14 @@ class Macaroni<T>(
         onNext(Status.Loading, getLocalData())
         onRemoteObservable().collect { data ->
             onUpdateLocal(data)
+        }.runCatching {
+            onNext(Status.Error, getLocalData())
         }
 
         onLocalObservable().collect { changedLocalData ->
             onNext(Status.Success, changedLocalData)
+        }.runCatching {
+            onNext(Status.Error, getLocalData())
         }
     }
 }
