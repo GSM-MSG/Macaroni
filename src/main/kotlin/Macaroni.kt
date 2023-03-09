@@ -14,6 +14,7 @@ class Macaroni<T>(
     var onLocalObservable: suspend () -> Flow<T>
     var getLocalData: () -> T
     var onUpdateLocal: suspend (T) -> Unit
+
     init {
         this.onRemoteObservable = onRemoteObservable
         this.onLocalObservable = onLocalObservable
@@ -22,17 +23,26 @@ class Macaroni<T>(
     }
 
     suspend fun fetch(onNext: (Status, T) -> Unit) {
-        onNext(Status.Loading, getLocalData())
-        onRemoteObservable().collect { data ->
-            onUpdateLocal(data)
-        }.runCatching {
+        runCatching {
+            onNext(Status.Loading, getLocalData())
+            onRemoteObservable()
+        }.onSuccess {
+            it.collect { data ->
+                onUpdateLocal(data)
+            }
+        }.onFailure {
             onNext(Status.Error, getLocalData())
         }
 
-        onLocalObservable().collect { changedLocalData ->
-            onNext(Status.Success, changedLocalData)
-        }.runCatching {
+        runCatching {
+            onLocalObservable()
+        }.onSuccess {
+            it.collect {changedLocalData ->
+                onNext(Status.Success, changedLocalData)
+            }
+        }.onFailure {
             onNext(Status.Error, getLocalData())
         }
+
     }
 }
