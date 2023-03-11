@@ -23,6 +23,7 @@ class Macaroni<T>(
     }
 
     suspend fun fetch(onNext: (Status, T) -> Unit) {
+        // when request from remote
         runCatching {
             onNext(Status.Loading, getLocalData())
             onRemoteObservable()
@@ -34,6 +35,7 @@ class Macaroni<T>(
             onNext(Status.Error, getLocalData())
         }
 
+        // when get date from local
         runCatching {
             onLocalObservable()
         }.onSuccess {
