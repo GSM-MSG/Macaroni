@@ -9,12 +9,6 @@ suspend fun main() {
                 emit(TestStatus("onRemoteObservable", "test"))
             }
         },
-        onLocalObservable = {
-            flow {
-                delay(200)
-                emit(TestStatus("onLocalObservable", "test"))
-            }
-        },
         onUpdateLocal = {
             println("onUpdateLocal")
         },
