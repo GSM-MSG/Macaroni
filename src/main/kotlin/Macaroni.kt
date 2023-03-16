@@ -7,12 +7,15 @@ class Macaroni<T>(
     onUpdateLocal: suspend (T) -> Unit
 ) {
     // remote
-    // when us
+    //  'onRemoteObservable' should pass the logic
+    //  for observing the request to the function
+    //  when it receives a response from the remote.
     var onRemoteObservable: suspend () -> Flow<T>
 
     // local
     // The user must pass the function so that fetch can get the data it needs locally.
     var getLocalData: () -> T
+
     // The user must pass in a function that updates the local data as it is entered.
     var onUpdateLocal: suspend (T) -> Unit
 
