@@ -29,14 +29,14 @@ class Macaroni<T>(
             onRemoteObservable()
         }.onSuccess {
             it.collect { data ->
-                onUpdateDateToLocal(data = data, onNext = onNext)
+                onUpdateDataToLocal(data = data, onNext = onNext)
             }
         }.onFailure {
             onNext(Status.Error, getLocalData())
         }
     }
 
-    private suspend inline fun onUpdateDateToLocal(data: T, onNext: (Status, T) -> Unit) {
+    private suspend inline fun onUpdateDataToLocal(data: T, onNext: (Status, T) -> Unit) {
         runCatching {
             onUpdateLocal(data)
         }.onSuccess {
