@@ -12,7 +12,8 @@ suspend fun main() {
         onUpdateLocal = {
             println("onUpdateLocal")
         },
-        getLocalData = { TestStatus(name = "getLocalData", test = "test") }
+        getLocalData = { TestStatus(name = "getLocalData", test = "test") },
+        onRemoteFailure = { println("it") }
     )
 
     macaroni.fetch { status, result ->

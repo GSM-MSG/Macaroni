@@ -4,13 +4,16 @@ import kotlinx.coroutines.flow.collect
 class Macaroni<T>(
     onRemoteObservable: suspend () -> Flow<T>,
     getLocalData: () -> T,
-    onUpdateLocal: suspend (T) -> Unit
+    onUpdateLocal: suspend (T) -> Unit,
+    onRemoteFailure: (Throwable) -> Unit
 ) {
     // remote
     //  'onRemoteObservable' should pass the logic
     //  for observing the request to the function
     //  when it receives a response from the remote.
     var onRemoteObservable: suspend () -> Flow<T>
+
+    var onRemoteFailure: (Throwable) -> Unit
 
     // local
     // The user must pass the function so that fetch can get the data it needs locally.
@@ -21,6 +24,7 @@ class Macaroni<T>(
 
     init {
         this.onRemoteObservable = onRemoteObservable
+        this.onRemoteFailure = onRemoteFailure
         this.getLocalData = getLocalData
         this.onUpdateLocal = onUpdateLocal
     }
@@ -36,6 +40,7 @@ class Macaroni<T>(
             }
         }.onFailure {
             onNext(Status.Error, getLocalData())
+            onRemoteFailure(it)
         }
     }
 
