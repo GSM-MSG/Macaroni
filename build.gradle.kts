@@ -5,9 +5,6 @@ plugins {
     id("maven-publish")
 }
 
-group = "com.msg"
-version = "1.0.0"
-
 repositories {
     mavenCentral()
 }
@@ -22,6 +19,17 @@ tasks.test {
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
+}
+
+publishing {
+    publications {
+        create("maven-public", MavenPublication::class) {
+            groupId = "com.msg"
+            artifactId = "library"
+            version = "1.0.0"
+            from(components.getByName("java"))
+        }
+    }
 }
 
 dependencies {
