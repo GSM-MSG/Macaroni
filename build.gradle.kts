@@ -18,7 +18,7 @@ tasks.test {
 }
 
 tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.6.0"
+    kotlinOptions.jvmTarget = "1.6"
 }
 
 publishing {
@@ -26,7 +26,7 @@ publishing {
         create("maven-public", MavenPublication::class) {
             groupId = "com.msg"
             artifactId = "library"
-            version = "1.0.2"
+            version = "1.0.0"
             from(components.getByName("java"))
         }
     }
