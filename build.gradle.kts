@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.6.0"
+    kotlin("jvm") version "1.6.10"
     id("maven-publish")
 }
 
@@ -18,7 +18,7 @@ tasks.test {
 }
 
 tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.6"
+    kotlinOptions.jvmTarget = "1.6.10"
 }
 
 publishing {
@@ -26,7 +26,7 @@ publishing {
         create("maven-public", MavenPublication::class) {
             groupId = "com.msg"
             artifactId = "library"
-            version = "1.0.0"
+            version = "1.0.2"
             from(components.getByName("java"))
         }
     }
