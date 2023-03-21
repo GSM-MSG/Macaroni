@@ -1,5 +1,4 @@
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
 
 class Macaroni<T>(
     onRemoteObservable: suspend () -> Flow<T>,
