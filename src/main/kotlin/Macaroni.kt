@@ -50,7 +50,6 @@ class Macaroni<T>(
             onNext(Status.Success, getLocalData())
         }.onFailure {
             onNext(Status.Error, getLocalData())
-//            글 it
         }
     }
 }
