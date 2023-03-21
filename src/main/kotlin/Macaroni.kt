@@ -3,7 +3,7 @@ import kotlinx.coroutines.flow.collect
 
 class Macaroni<T>(
     onRemoteObservable: suspend () -> Flow<T>,
-    getLocalData: () -> T,
+    getLocalData: suspend () -> T,
     onUpdateLocal: suspend (T) -> Unit,
     onRemoteFailure: (Throwable) -> Unit
 ) {
@@ -17,7 +17,7 @@ class Macaroni<T>(
 
     // local
     // The user must pass the function so that fetch can get the data it needs locally.
-    var getLocalData: () -> T
+    var getLocalData: suspend () -> T
 
     // The user must pass in a function that updates the local data as it is entered.
     var onUpdateLocal: suspend (T) -> Unit
