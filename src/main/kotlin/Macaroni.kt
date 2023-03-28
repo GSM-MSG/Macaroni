@@ -30,17 +30,22 @@ class Macaroni<T>(
 
     suspend fun fetch(onNext: (Status, T) -> Unit) {
         // when request from remote
-        runCatching {
-            onNext(Status.Loading, getLocalData())
-            onRemoteObservable()
-        }.onSuccess {
-            it.collect { data ->
-                onUpdateDataToLocal(data = data, onNext = onNext)
+        try {
+            runCatching {
+                onNext(Status.Loading, getLocalData())
+                onRemoteObservable()
+            }.onSuccess {
+                it.collect { data ->
+                    onUpdateDataToLocal(data = data, onNext = onNext)
+                }
+            }.onFailure {
+                onNext(Status.Error, getLocalData())
+                onRemoteFailure(it)
             }
-        }.onFailure {
+        } catch (e: Exception) {
             onNext(Status.Error, getLocalData())
-            onRemoteFailure(it)
         }
+
     }
 
     private suspend inline fun onUpdateDataToLocal(data: T, onNext: (Status, T) -> Unit) {
