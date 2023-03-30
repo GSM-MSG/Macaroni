@@ -55,6 +55,7 @@ class Macaroni<T>(
             onNext(Status.Success, getLocalData())
         }.onFailure {
             onNext(Status.Error, getLocalData())
+            it.printStackTrace()
         }
     }
 }
