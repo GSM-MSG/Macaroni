@@ -10,6 +10,7 @@ suspend fun main() {
             }
         },
         onUpdateLocal = {
+            delay(100)
             println("onUpdateLocal")
         },
         getLocalData = { TestStatus(name = "getLocalData", test = "test") },

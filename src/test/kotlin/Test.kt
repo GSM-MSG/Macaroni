@@ -5,8 +5,9 @@ import kotlinx.coroutines.flow.flow
 suspend fun main() {
     val macaroni = Macaroni(
         onUpdateLocal = {
-//            throw Exception()
-            println(it)
+            throw Exception()
+//            delay(1000)
+//            println(it)
         },
         onRemoteObservable = {
 //            throw Exception()
