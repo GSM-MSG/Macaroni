@@ -1,3 +1,4 @@
-enum class Status {
-    Loading, Success, Error
-}
+sealed class MacaroniStatus
+object Loading : MacaroniStatus()
+object Success : MacaroniStatus()
+object Error: MacaroniStatus()
