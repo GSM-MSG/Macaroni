@@ -26,7 +26,7 @@ publishing {
         create("maven-public", MavenPublication::class) {
             groupId = "com.msg"
             artifactId = "library"
-            version = "1.1.1"
+            version = "1.1.2"
             from(components.getByName("java"))
         }
     }
