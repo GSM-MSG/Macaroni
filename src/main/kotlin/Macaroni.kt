@@ -4,7 +4,7 @@ class Macaroni<T>(
     onRemoteObservable: suspend () -> Flow<T>,
     getLocalData: suspend () -> T,
     onUpdateLocal: suspend (T) -> Unit,
-    onRemoteFailure: (Throwable) -> Unit
+    onRemoteFailure: (Throwable) -> Unit = {}
 ) {
     // remote
     //  'onRemoteObservable' should pass the logic
